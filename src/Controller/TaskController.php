@@ -30,7 +30,6 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $em = $this->getDoctrine()->getManager();
 
             $em->persist($task);
             $em->flush();
@@ -51,7 +50,6 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // $this->getDoctrine()->getManager()->flush();
             $em->persist($task);
             $em->flush();
 
@@ -70,7 +68,6 @@ class TaskController extends AbstractController
     public function toggleTaskAction(Task $task, EntityManagerInterface $em)
     {
         $task->toggle(!$task->isDone());
-        // $this->getDoctrine()->getManager()->flush();
         $em->persist($task);
         $em->flush();
 
@@ -82,7 +79,6 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     public function deleteTaskAction(Task $task, EntityManagerInterface $em)
     {
-        // $em = $this->getDoctrine()->getManager();
         $em->remove($task);
         $em->flush();
 
