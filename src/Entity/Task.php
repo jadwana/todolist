@@ -25,6 +25,9 @@ class Task
     #[ORM\Column(nullable: true)]
     private ?bool $isDone = null;
 
+    #[ORM\ManyToOne(inversedBy: 'task')]
+    private ?User $user = null;
+
     public function __construct()
     {
        $this->createdAt = new \DateTimeImmutable();
@@ -87,5 +90,17 @@ class Task
     public function toggle($flag)
     {
         $this->isDone = $flag;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
