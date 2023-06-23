@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -21,6 +22,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $username = null;
 
     #[ORM\Column]
+    #[Assert\Count(
+        max: 1,
+        maxMessage: 'Vous ne pouvez choisir qu\'un seul {{ limit }} rôle',
+    )]
     private array $roles = [];
 
     /**
@@ -34,6 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Task::class)]
     private Collection $task;
+
 
     public function __construct()
     {
@@ -73,8 +79,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        // Guarantee every user at least has ROLE_USER
+        // $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -143,7 +149,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeTask(Task $task): static
     {
         if ($this->task->removeElement($task)) {
-            // set the owning side to null (unless already changed)
+            // Set the owning side to null (unless already changed)
             if ($task->getUser() === $this) {
                 $task->setUser(null);
             }
