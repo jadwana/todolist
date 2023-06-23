@@ -23,7 +23,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/create', name: 'user_create')]
-    public function createAction(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher)
+    public function createAction(Request $request, EntityManagerInterface $EntityManage, UserPasswordHasherInterface $userPasswordHasher)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -39,8 +39,8 @@ class UserController extends AbstractController
                 )
             );
 
-            $em->persist($user);
-            $em->flush();
+            $EntityManage->persist($user);
+            $EntityManage->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
 
@@ -51,7 +51,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/{id}/edit', name: 'user_edit')]
-    public function editAction(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $em)
+    public function editAction(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $EntityManage)
     {
         $form = $this->createForm(UserType::class, $user);
 
@@ -66,8 +66,8 @@ class UserController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
-            $em->persist($user);
-            $em->flush();
+            $EntityManage->persist($user);
+            $EntityManage->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
 
