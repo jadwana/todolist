@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class TaskController extends AbstractController
 {
@@ -79,11 +80,17 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     public function deleteTaskAction(Task $task, EntityManagerInterface $entityManager)
     {
-        $entityManager->remove($task);
-        $entityManager->flush();
+        if($task->getUser() === $this->getUser() ||
+        ($task->getUser() === null && $this->isGranted('ROLE_ADMIN'))
+        ){
 
-        $this->addFlash('success', 'La tâche a bien été supprimée.');
-
-        return $this->redirectToRoute('task_list');
+            $entityManager->remove($task);
+            $entityManager->flush();
+    
+            $this->addFlash('success', 'La tâche a bien été supprimée.');
+    
+            return $this->redirectToRoute('task_list');
+        }
+        throw new UnauthorizedHttpException('Vous ne pouvez pas supprimer cette tâche');
     }
 }
