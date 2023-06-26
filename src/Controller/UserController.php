@@ -9,12 +9,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
     #[Route('/users', name: 'user_list')]
+    #[IsGranted('ROLE_ADMIN', message: 'Vous ne pouvez pas accédez à cette page!')]
     public function listAction(UserRepository $userRepository): Response
     {
         return $this->render('user/list.html.twig', [
