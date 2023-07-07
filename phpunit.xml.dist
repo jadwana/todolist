@@ -23,19 +23,33 @@
         </testsuite>
     </testsuites>
 
+    
+
     <coverage processUncoveredFiles="true">
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <directory suffix=".php">src/DataFixtures</directory>
+            <directory suffix=".php">src/Repository</directory>
+                <file>src/Kernel.php</file>
+        </exclude>
     </coverage>
+
+    <extensions>
+          <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
+    </extensions>
 
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
     </listeners>
 
+    
+
     <!-- Run `composer require symfony/panther` before enabling this extension -->
     <!--
     <extensions>
+        <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
         <extension class="Symfony\Component\Panther\ServerExtension" />
     </extensions>
     -->

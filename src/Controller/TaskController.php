@@ -9,13 +9,14 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class TaskController extends AbstractController
 {
     #[Route('/tasks', name: 'task_list')]
-    public function listAction(TaskRepository $taskRepository): Response
+    #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
+    public function listTask(TaskRepository $taskRepository): Response
     {
         return $this->render('task/list.html.twig', [
             'tasks' => $taskRepository->findAll()
@@ -23,7 +24,8 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/create', name: 'task_create')]
-    public function createAction(Request $request, EntityManagerInterface $entityManager)
+    #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
+    public function createTask(Request $request, EntityManagerInterface $entityManager)
     {
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
@@ -44,8 +46,11 @@ class TaskController extends AbstractController
     }
    
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
-    public function editAction(Task $task, Request $request, EntityManagerInterface $entityManager)
+    #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
+    public function editTask(Task $task, Request $request, EntityManagerInterface $entityManager)
     {
+        $this->denyAccessUnlessGranted('TASK_EDIT', $task);
+        
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -66,7 +71,8 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
-    public function toggleTaskAction(Task $task, EntityManagerInterface $entityManager)
+    #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
+    public function toggleTask(Task $task, EntityManagerInterface $entityManager)
     {
         $task->toggle(!$task->isDone());
         $entityManager->persist($task);
@@ -78,19 +84,15 @@ class TaskController extends AbstractController
     }
 
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
-    public function deleteTaskAction(Task $task, EntityManagerInterface $entityManager)
+    #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
+    public function deleteTask(Task $task, EntityManagerInterface $entityManager)
     {
-        if($task->getUser() === $this->getUser() ||
-        ($task->getUser() === null && $this->isGranted('ROLE_ADMIN'))
-        ){
-
+        $this->denyAccessUnlessGranted('TASK_DELETE', $task);
+        
             $entityManager->remove($task);
             $entityManager->flush();
-    
             $this->addFlash('success', 'La tâche a bien été supprimée.');
-    
             return $this->redirectToRoute('task_list');
-        }
-        throw new UnauthorizedHttpException('Vous ne pouvez pas supprimer cette tâche');
+        
     }
 }

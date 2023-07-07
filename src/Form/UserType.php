@@ -30,8 +30,6 @@ class UserType extends AbstractType
                 'expanded' => true,
                 'required' => true,
                 'multiple' => true,
-               
-                
             ]);
         ;
     }
