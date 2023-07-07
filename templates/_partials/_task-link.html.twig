@@ -1,0 +1,18 @@
+<div class="col text-center">
+    <a href="{{ path('task_create') }}" class="btn btn-info ">Créer une tâche</a>
+</div>
+{% if  app.request.attributes.get('_route') != 'task_list' %}
+<div class="col text-center">
+    <a href="{{ path('task_list') }}" class="btn btn-secondary mb-3">Consulter les tâches</a>
+</div>
+{% endif %}
+{% if  app.request.attributes.get('_route') != 'task_unfinish' %}
+<div class="col text-center">
+    <a href="{{ path('task_unfinish') }}" class="btn btn-secondary  mb-3">Consulter les tâches à faire</a>
+</div>
+{% endif %}
+{% if  app.request.attributes.get('_route') != 'task_finish' %}
+<div class="col text-center">
+    <a href="{{ path('task_finish') }}" class="btn btn-secondary  mb-3">Consulter les tâches terminées</a>
+</div>
+{% endif %}
