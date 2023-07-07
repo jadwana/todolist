@@ -32,15 +32,21 @@ class UserController extends AbstractController
 
     #[Route('/users/create', name: 'user_create')]
     #[IsGranted('ROLE_ADMIN', message: 'Vous ne pouvez pas accéder à cette page!')]
+    /**
+     * Create user
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $EntityManage
+     * @param UserPasswordHasherInterface $userPasswordHasher
+     * @return void
+     */
     public function createUser(Request $request, EntityManagerInterface $EntityManage, UserPasswordHasherInterface $userPasswordHasher)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
@@ -61,6 +67,15 @@ class UserController extends AbstractController
 
     #[Route('/users/{id}/edit', name: 'user_edit')]
     #[IsGranted('ROLE_ADMIN', message: 'Vous ne pouvez pas accéder à cette page!')]
+    /**
+     * Update user
+     *
+     * @param User $user
+     * @param Request $request
+     * @param UserPasswordHasherInterface $userPasswordHasher
+     * @param EntityManagerInterface $EntityManage
+     * @return void
+     */
     public function editUser(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $EntityManage)
     {
         $form = $this->createForm(UserType::class, $user);

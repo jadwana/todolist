@@ -16,18 +16,35 @@ class TaskVoter extends Voter
     const EDIT = 'TASK_EDIT';
 
     private $security;
-
+    /**
+     * 
+     *
+     * @param Security $security
+     */
     public function __construct(Security $security)
     {
         $this->security = $security;
     }
-
+    /**
+     * 
+     *
+     * @param  $attribute
+     * @param  $subject
+     * @return boolean
+     */
     protected function supports($attribute, $subject): bool
     {
         return in_array($attribute, [self::EDIT, self::DELETE], true)
             && $subject instanceof Task;
     }
-
+    /**
+     * 
+     *
+     * @param  $attribute
+     * @param  $task
+     * @param TokenInterface $token
+     * @return boolean
+     */
     protected function voteOnAttribute($attribute, $task, TokenInterface $token): bool
     {
         $user = $token->getUser();

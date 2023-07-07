@@ -16,6 +16,12 @@ class TaskController extends AbstractController
 {
     #[Route('/tasks', name: 'task_list')]
     #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
+    /**
+     * Show task list
+     *
+     * @param TaskRepository $taskRepository
+     * @return Response
+     */
     public function listTask(TaskRepository $taskRepository): Response
     {
         return $this->render('task/list.html.twig', [
@@ -25,6 +31,13 @@ class TaskController extends AbstractController
 
     #[Route('/tasks/create', name: 'task_create')]
     #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
+    /**
+     * Create task
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return void
+     */
     public function createTask(Request $request, EntityManagerInterface $entityManager)
     {
         $task = new Task();
@@ -47,6 +60,14 @@ class TaskController extends AbstractController
    
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
     #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
+    /**
+     * Edit task
+     *
+     * @param Task $task
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return void
+     */
     public function editTask(Task $task, Request $request, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('TASK_EDIT', $task);
@@ -72,6 +93,13 @@ class TaskController extends AbstractController
 
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
     #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
+    /**
+     * Toggle task
+     *
+     * @param Task $task
+     * @param EntityManagerInterface $entityManager
+     * @return void
+     */
     public function toggleTask(Task $task, EntityManagerInterface $entityManager)
     {
         $task->toggle(!$task->isDone());
@@ -85,6 +113,13 @@ class TaskController extends AbstractController
 
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
+    /**
+     * Delete task
+     *
+     * @param Task $task
+     * @param EntityManagerInterface $entityManager
+     * @return void
+     */
     public function deleteTask(Task $task, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('TASK_DELETE', $task);
