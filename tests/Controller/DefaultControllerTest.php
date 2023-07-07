@@ -1,18 +1,24 @@
 <?php
 
-namespace Tests\AppBundle\Controller;
 
+namespace App\Tests\Controller;
+
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
-    public function testIndex()
+
+    use SetUpTrait;
+
+    public function testHomepage()
     {
-        $client = static::createClient();
+        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('homepage'));
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+        $this->assertSelectorTextContains('h1','Bienvenue sur Todo List, l\'application vous permettant de gérer l\'ensemble de vos tâches sans effort !');
+     }
 
-        $crawler = $client->request('GET', '/');
-
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Welcome to Symfony', $crawler->filter('#container h1')->text());
-    }
+    
 }

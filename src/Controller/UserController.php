@@ -16,8 +16,14 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserController extends AbstractController
 {
     #[Route('/users', name: 'user_list')]
-    #[IsGranted('ROLE_ADMIN', message: 'Vous ne pouvez pas accédez à cette page!')]
-    public function listAction(UserRepository $userRepository): Response
+    #[IsGranted('ROLE_ADMIN', message: 'Vous ne pouvez pas accéder à cette page!')]
+    /**
+     * Show the list of users
+     *
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function listUser(UserRepository $userRepository): Response
     {
         return $this->render('user/list.html.twig', [
             'users' => $userRepository->findAll()
@@ -25,7 +31,8 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/create', name: 'user_create')]
-    public function createAction(Request $request, EntityManagerInterface $EntityManage, UserPasswordHasherInterface $userPasswordHasher)
+    #[IsGranted('ROLE_ADMIN', message: 'Vous ne pouvez pas accéder à cette page!')]
+    public function createUser(Request $request, EntityManagerInterface $EntityManage, UserPasswordHasherInterface $userPasswordHasher)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -53,15 +60,14 @@ class UserController extends AbstractController
     }
 
     #[Route('/users/{id}/edit', name: 'user_edit')]
-    public function editAction(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $EntityManage)
+    #[IsGranted('ROLE_ADMIN', message: 'Vous ne pouvez pas accéder à cette page!')]
+    public function editUser(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $EntityManage)
     {
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           
-
             $user->setPassWord(
                 $userPasswordHasher->hashPassword(
                     $user,
