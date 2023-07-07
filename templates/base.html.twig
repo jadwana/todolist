@@ -30,8 +30,9 @@
         <div class="container">
             <div class="row my-3">
                 <div class="col">
-
-                    <a href="{{ path('user_create') }}" class="btn btn-primary">Créer un utilisateur</a>
+                    {% if app.user and is_granted('ROLE_ADMIN') and app.request.attributes.get('_route') != 'user_list' %}
+                        <a href="{{ path('user_list') }}" class="btn btn-primary">Gestion des utilisateurs</a>
+                    {% endif %}   
                 </div>
 
                 {% if app.user %}
@@ -39,12 +40,12 @@
 
                     <a href="{{ path('app_logout') }}" class="float-end btn btn-danger">Se déconnecter</a>
                 </div>
-                {% endif %}
-
-                {% if not app.user and 'login' != app.request.attributes.get('_route') %}
+                {# {% endif %} #}
+                {% else %}
+                {# {% if not app.user and 'login' != app.request.attributes.get('_route') %} #}
                 <div class="col">
 
-                    <a href="{{ path('app_login') }}" class="btn btn-success">Se connecter</a>
+                    <a href="{{ path('app_login') }}" class="btn btn-success float-end">Se connecter</a>
                 </div>
                 {% endif %}
             </div>

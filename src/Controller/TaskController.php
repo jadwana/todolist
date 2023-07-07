@@ -29,6 +29,36 @@ class TaskController extends AbstractController
         ]);
     }
 
+    #[Route('/tasks/finish', name: 'task_finish')]
+    #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
+    /**
+     * Show task list
+     *
+     * @param TaskRepository $taskRepository
+     * @return Response
+     */
+    public function finish(TaskRepository $taskRepository): Response
+    {
+        return $this->render('task/list.html.twig', [
+            'tasks' => $taskRepository->findBy(['isDone' => 1])
+        ]);
+    }
+
+    #[Route('/tasks/unfinish', name: 'task_unfinish')]
+    #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
+    /**
+     * Show task list
+     *
+     * @param TaskRepository $taskRepository
+     * @return Response
+     */
+    public function unfinish(TaskRepository $taskRepository): Response
+    {
+        return $this->render('task/list.html.twig', [
+            'tasks' => $taskRepository->findBy(['isDone' => 0])
+        ]);
+    }
+
     #[Route('/tasks/create', name: 'task_create')]
     #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
     /**

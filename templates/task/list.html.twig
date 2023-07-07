@@ -3,34 +3,27 @@
 {% block header_img %}<img class="slide-image" src="{{ asset('assets/img/todolist_content.jpg') }}" alt="todo list">{% endblock %}
 
 {% block body %}
-    <a href="{{ path('task_create') }}" class="btn btn-info ">Créer une tâche</a>
+    <div class="row">
+        {% include "_partials/_task-link.html.twig" %} 
+    </div>
     <div class="row">
         {% for task in tasks %}
-        
-        <div class="col-sm-4 col-lg-4 col-md-4">
-            <div class="thumbnail mt-3">
-                <div >
-                    <h4 class="float-end">
-                        {% if task.isDone %}<span class="text-success"><i class="bi bi-check2-square"></i></i></span>{% else %}<span ><i class="bi bi-square"></i></span>{% endif %}
-                    </h4>
-                    <h4 ><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h4>
-                    <p >{{ task.content }}</p>
-                </div>
-                <div>
-                    <form action="{{ path('task_toggle', {'id' : task.id }) }}">
-                        <button class="btn btn-success btn-sm float-end">
-                            {% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}
-                        </button>
-                    </form>
-                    <form action="{{ path('task_delete', {'id' : task.id }) }}">
-                        <button class="btn btn-danger btn-sm float-start">Supprimer</button>
-                    </form>
-                </div>
+        <div class="col-sm-6 col-lg-6 col-md-6">
+            <div class="m-5">
+                <h4 class="float-end">
+                    {% if task.isDone %}<span class="text-success"><i class="bi bi-check2-square"></i></i></span>
+                    {% else %}<span ><i class="bi bi-square"></i></span>
+                    {% endif %}
+                </h4>
+                <h4 ><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h4>
+                <p >{{ task.content }}</p>
+                <a href="{{path('task_toggle', {'id' : task.id })}}" class="btn btn-success btn-sm float-end">{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}</a>
+                <a href="{{path('task_delete', {'id' : task.id })}}" class="btn btn-danger btn-sm float-start">Supprimer</a>
             </div>
         </div>
         {% else %}
             <div class="alert alert-warning" role="alert">
-                Il n'y a pas encore de tâche enregistrée. <a href="{{ path('task_create') }}" class="btn btn-warning float-end">Créer une tâche</a>
+                Il n'y a pas encore de tâche.
             </div>
         {% endfor %}
     </div>
