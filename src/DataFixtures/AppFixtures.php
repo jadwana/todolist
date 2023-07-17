@@ -44,7 +44,7 @@ class AppFixtures extends Fixture
         // Other user
         $other = new User;
         $other->setEmail('otheruser@user.fr');
-        $other->setUsername('');
+        $other->setUsername('other');
         $other->setRoles(['ROLE_USER']);
         $other->setPassword(
             $this->passwordEncoder->hashPassword($other, 'other')
