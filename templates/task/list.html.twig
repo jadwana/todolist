@@ -3,6 +3,17 @@
 {% block header_img %}<img class="slide-image" src="{{ asset('assets/img/todolist_content.jpg') }}" alt="todo list">{% endblock %}
 
 {% block body %}
+<div class="row text-center my-3">
+    <h3>
+        {% if  app.request.attributes.get('_route') == 'task_list' %}
+        Liste de toutes les tâches
+        {% elseif app.request.attributes.get('_route') == 'task_unfinish' %}
+        Liste des tâches à faire
+        {% else %}
+        Liste des tâches terminées
+        {% endif %}
+    </h3>
+</div>
     <div class="row">
         {% include "_partials/_task-link.html.twig" %} 
     </div>
@@ -15,10 +26,24 @@
                     {% else %}<span ><i class="bi bi-square"></i></span>
                     {% endif %}
                 </h4>
-                <h4 ><a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a></h4>
+                <h4 >
+                    {% if task.user == app.user or is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('task_edit', {'id' : task.id }) }}">{{ task.title }}</a>
+                    {% else %}
+                        {{ task.title }}
+                    {% endif %}
+                </h4>
+                <p>Tache crée le {{ task.createdAt|date('d/m/Y') }}
+                    {% if task.user.username is defined %}
+                    par {{ task.user.username }}
+                    {% endif %}
+                </p>
+                    
                 <p >{{ task.content }}</p>
                 <a href="{{path('task_toggle', {'id' : task.id })}}" class="btn btn-success btn-sm float-end">{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée{% endif %}</a>
+                {% if task.user == app.user or is_granted('ROLE_ADMIN') %}
                 <a href="{{path('task_delete', {'id' : task.id })}}" class="btn btn-danger btn-sm float-start">Supprimer</a>
+                {% endif %}
             </div>
         </div>
         {% else %}

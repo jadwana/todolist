@@ -92,11 +92,8 @@ class TaskControllerTest extends WebTestCase
     {
         $this->client->loginUser($this->testUser);
         $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('task_delete',['id' =>$this->testOtherTaskId]));
-        $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
-        $this->assertResponseRedirects();
-        $this->client->followRedirect();
-        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertSelectorTextContains('div.alert.alert-danger','Vous ne pouvez pas supprimer cette tâche.');
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
+       
     }
 
     public function testAdminDeleteAnonymousTask()
