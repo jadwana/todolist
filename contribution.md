@@ -3,11 +3,11 @@ Contribute to the project
 # Preamble
 You can intervene on the project at any time to offer new functionalities, report a bug or
 why not new implementations which would serve to make the code evolve in a relevant way.
-```
+
 Before starting to work on a change, see if someone is already on it by checking if there is not already an issue or pull request.
-```
+
 # Install project on your machine:
-```
+
 Make a fork of the project Github directory
 Follow the [README](./README.md) after come back here
 
@@ -17,32 +17,28 @@ Before creating your issue there are a set of rules to respect:
 - use the bug or feature label for your issue 
 - give as many details as possible about your environment (OS, version of PHP, extensions ...) 
 - describe the steps to reproduce the bug or the details and usefulness of the new feature
-```
-- Open a new issue
-```
+
+
 - Suggest your issue 
-```
- # After acceptance from us : 
-```
+
+
 - create a new branch, so you can work on it 
 - start implementing your code
 - commit it
-```
-```
 - Create a new pull-request and suggest it to us
-```
+
 If the code is suitable and functional you will be able to merge your new functionality
 
 # Some rules :
-```
+
 - Respect PSR 
 - Your code must be clear and readable
 - Written with a PHP version identical to the project
 - And above all your code must be reusable
 - For the quality of the code, use the CODACY or/and codeclimate tool and phpcodesniffer
-```
+
 # quality process :
-```
+
 -tests
 for safety reasons, it is preferable to use a test database
 modify the .env.test file by copying the DATABASE_URL from the .env.local file
