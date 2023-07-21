@@ -12,7 +12,7 @@ class TaskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title',TextType::class, ['label' => "Nom de la tache"])
+            ->add('title', TextType::class, ['label' => "Nom de la tache"])
             ->add('content', TextareaType::class, ['label' => "Description de la tache"]);
     }
 }

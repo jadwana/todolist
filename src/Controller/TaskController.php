@@ -87,7 +87,7 @@ class TaskController extends AbstractController
 
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
-   
+
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
     #[IsGranted('ROLE_USER', message: 'Vous ne pouvez pas accéder à cette page!')]
     /**
@@ -101,7 +101,7 @@ class TaskController extends AbstractController
     public function editTask(Task $task, Request $request, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('TASK_EDIT', $task);
-        
+
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -153,11 +153,10 @@ class TaskController extends AbstractController
     public function deleteTask(Task $task, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('TASK_DELETE', $task);
-        
+
             $entityManager->remove($task);
             $entityManager->flush();
             $this->addFlash('success', 'La tâche a bien été supprimée.');
             return $this->redirectToRoute('task_list');
-        
     }
 }

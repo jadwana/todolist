@@ -1,6 +1,9 @@
 # todolist
 This project is a part of my training with Openclassrooms : Application's developper - PHP/Symfony.
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/1c717b0f9404a6163203/maintainability)](https://codeclimate.com/github/jadwana/todolist/maintainability)
+
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/f037ea5119a34907b4a73936a21af030)](https://app.codacy.com/gh/jadwana/todolist/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 ### Specs
 *	PHP 8
 *	Bootstrap 5
@@ -23,7 +26,9 @@ If you would like to install this project on your computer, you will first need 
 
 
 ### Database configuration and access
-1 Update DATABASE_URL .env file with your database configuration. ex : DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name
+1 Update DATABASE_URL .env file with your database configuration. 
+ex : DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name
+
 2 Create database :
 ```bash
  symfony console doctrine:database:create
@@ -49,37 +54,13 @@ user account:
 
 If you did not use fictive data:
 
-* Create a user account with sign up form
+* Create a user in the database
 * Modify the user role in the database is you want an admin account
+
+If you want to use test please install a test base (refer to the contribution section below)
 
 ### Congratulations, the Todolist project is now accessible at: localhost:8000
 
 ## Contribution
 
-[Lisez ceci avant de contribuer](https://github.com/jadwana/todolist/contribution.md)
-
-Utiliser une base de données de test
-
-Avant de pouvoir lancer les tests, nous devons "initialiser" la base de données test
-modifiez le fichier .env.test en copiant la DATABASE_URL du fichier .env.local
-créez la base de données et jouez les migrations
-symfony console doctrine:database:create --env=test
-symfony console doctrine:migrations:migrate -n --env=test
-
-Chargez les données de test pour l'environnement/la base de données de test :
-symfony console doctrine:fixtures:load --env=test
-
-les tests peuvent etre lancés 
-soit en passant le chemin de leur classe en argument par ex :
-symfony php bin/phpunit tests/Controller/UserControllerTest.php
-
-soit en filtrant un test particulier par ex :
-vendor/bin/phpunit --filter=testhomepage
-
-soit tous à la fois en ne mettant pas de filtre
-
-couverture de code :
-vendor/bin/phpunit --coverage-html public/test-coverage
-
-le rapport est accessible au format html à l'adresse ci-dessous
-http://127.0.0.1:5500/public/test-coverage/index.html
+[Read this before contributing](https://github.com/jadwana/todolist/contribution.md)

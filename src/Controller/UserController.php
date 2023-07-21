@@ -40,8 +40,11 @@ class UserController extends AbstractController
      * @param UserPasswordHasherInterface $userPasswordHasher
      * @return void
      */
-    public function createUser(Request $request, EntityManagerInterface $EntityManage, UserPasswordHasherInterface $userPasswordHasher)
-    {
+    public function createUser(
+        Request $request,
+        EntityManagerInterface $EntityManage,
+        UserPasswordHasherInterface $userPasswordHasher
+    ) {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
@@ -76,8 +79,12 @@ class UserController extends AbstractController
      * @param EntityManagerInterface $EntityManage
      * @return void
      */
-    public function editUser(User $user, Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $EntityManage)
-    {
+    public function editUser(
+        User $user,
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $EntityManage
+    ) {
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);

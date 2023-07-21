@@ -11,15 +11,13 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-   
-    
     public function __construct(
         private UserPasswordHasherInterface $passwordEncoder,
     ) {
     }
 
     public function load(ObjectManager $manager): void
-    {   
+    {
         $faker = Faker\Factory::create('fr_FR');
         // Admin
         $admin = new User();
@@ -32,7 +30,7 @@ class AppFixtures extends Fixture
         $manager->persist($admin);
 
         // User
-        $user = new User;
+        $user = new User();
         $user->setEmail('user@user.fr');
         $user->setUsername('user');
         $user->setRoles(['ROLE_USER']);
@@ -42,7 +40,7 @@ class AppFixtures extends Fixture
         $manager->persist($user);
 
         // Other user
-        $other = new User;
+        $other = new User();
         $other->setEmail('otheruser@user.fr');
         $other->setUsername('other');
         $other->setRoles(['ROLE_USER']);
@@ -53,36 +51,36 @@ class AppFixtures extends Fixture
 
 
         // Tasks
-        for($i=0;$i<3;$i++){
+        for ($i = 0; $i < 3; $i++) {
             $task = new Task();
             $task->setUser($user);
             $task->setTitle($faker->sentence());
             $task->setContent($faker->text(500));
             $task->setCreatedAt(new \DateTimeImmutable());
             $task->isDone();
-            $task->toggle(boolval(rand(0,1)));
+            $task->toggle(boolval(rand(0, 1)));
             $manager->persist($task);
         }
 
-        for($i=0;$i<3;$i++){
+        for ($i = 0; $i < 3; $i++) {
             $task = new Task();
             $task->setUser($other);
             $task->setTitle($faker->sentence());
             $task->setContent($faker->text(500));
             $task->setCreatedAt(new \DateTimeImmutable());
             $task->isDone();
-            $task->toggle(boolval(rand(0,1)));
+            $task->toggle(boolval(rand(0, 1)));
             $manager->persist($task);
         }
 
-        for($i=0;$i<3;$i++){
+        for ($i = 0; $i < 3; $i++) {
             $task = new Task();
             // $task->setUser($other);
             $task->setTitle($faker->sentence());
             $task->setContent($faker->text(500));
             $task->setCreatedAt(new \DateTimeImmutable());
             $task->isDone();
-            $task->toggle(boolval(rand(0,1)));
+            $task->toggle(boolval(rand(0, 1)));
             $manager->persist($task);
         }
 

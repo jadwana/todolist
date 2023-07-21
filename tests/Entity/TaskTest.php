@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Tests\Entity;
-
 
 use App\Entity\Task;
 use App\Entity\User;
@@ -53,5 +51,4 @@ class TaskTest extends WebTestCase
         $this->task->setUser(new User());
         $this->assertInstanceOf(User::class, $this->task->getUser());
     }
-
 }

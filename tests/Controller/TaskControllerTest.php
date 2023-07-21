@@ -14,11 +14,11 @@ class TaskControllerTest extends WebTestCase
     {
         // Testing user access
         $this->client->loginUser($this->testUser);
-        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('task_list'));
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('task_list'));
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         // Testing admin access
         $this->client->loginUser($this->testAdmin);
-        $crawler = $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('task_list'));
+        $crawler = $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('task_list'));
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSame(1, $crawler->filter('html:contains("Créer une tâche")')->count());
     }
@@ -27,9 +27,9 @@ class TaskControllerTest extends WebTestCase
     {
         // Testing user access
         $this->client->loginUser($this->testUser);
-        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('task_create'));
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('task_create'));
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        
+
         // Testing adding new task
         $this->client->submitForm('Ajouter', [
             'task[title]' => 'titre',
@@ -41,15 +41,14 @@ class TaskControllerTest extends WebTestCase
         $this->client->followRedirect();
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertSelectorTextContains('div.alert-success','La tâche a été bien été ajoutée.');
-
+        $this->assertSelectorTextContains('div.alert-success', 'La tâche a été bien été ajoutée.');
     }
 
     public function testEditTask()
     {
         // Testing user access
         $this->client->loginUser($this->testUser);
-        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('task_edit',['id' => $this->testTaskId]));
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('task_edit', ['id' => $this->testTaskId]));
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
         // Testing updating task
@@ -61,15 +60,21 @@ class TaskControllerTest extends WebTestCase
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertResponseRedirects();
         $this->client->followRedirect();
-
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertSelectorTextContains('div.alert.alert-success','La tâche a bien été modifiée.');
+        $this->assertSelectorTextContains('div.alert.alert-success', 'La tâche a bien été modifiée.');
+    }
+
+    public function testEditOtherTask()
+    {
+        $this->client->loginUser($this->testUser);
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('task_edit', ['id' => $this->testOtherTaskId]));
+        $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
     }
 
     public function testToggleTask()
     {
         $this->client->loginUser($this->testUser);
-        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('task_toggle',['id' => $this->testTaskId]));
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('task_toggle', ['id' => $this->testTaskId]));
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertResponseRedirects();
         $this->client->followRedirect();
@@ -80,7 +85,7 @@ class TaskControllerTest extends WebTestCase
     public function testUserDeleteHisTask()
     {
         $this->client->loginUser($this->testUser);
-        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('task_delete',['id' =>$this->testTaskId]));
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('task_delete', ['id' => $this->testTaskId]));
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertResponseRedirects();
         $this->client->followRedirect();
@@ -91,9 +96,8 @@ class TaskControllerTest extends WebTestCase
     public function testUserDeleteNotHisTask()
     {
         $this->client->loginUser($this->testUser);
-        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('task_delete',['id' =>$this->testOtherTaskId]));
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('task_delete', ['id' => $this->testOtherTaskId]));
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
-       
     }
 
     public function testAdminDeleteAnonymousTask()
@@ -101,12 +105,11 @@ class TaskControllerTest extends WebTestCase
         $this->client->loginUser($this->testAdmin);
         $this->testAnonymousTask = $this->taskRepository->findOneBy(['user' => null]);
         $this->testAnonymousTaskId = $this->testAnonymousTask->getId();
-        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('task_delete',['id' =>$this->testAnonymousTaskId]));
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('task_delete', ['id' => $this->testAnonymousTaskId]));
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
         $this->assertResponseRedirects();
         $this->client->followRedirect();
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorcount(1, 'div.alert-success');
     }
-
 }

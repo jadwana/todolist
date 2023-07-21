@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Tests\Entity;
-
 
 use App\Entity\Task;
 use App\Entity\User;
@@ -37,7 +35,7 @@ class UserTest extends WebTestCase
         $this->assertSame('123', $this->user->getPassword());
     }
 
-    
+
 
     public function testEmail(): void
     {
@@ -67,6 +65,4 @@ class UserTest extends WebTestCase
     {
         $this->assertNull($this->user->eraseCredentials());
     }
-
-    
 }

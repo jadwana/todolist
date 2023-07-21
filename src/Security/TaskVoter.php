@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Security;
-
 
 use App\Entity\Task;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -17,7 +15,7 @@ class TaskVoter extends Voter
 
     private $security;
     /**
-     * 
+     *
      *
      * @param Security $security
      */
@@ -26,7 +24,7 @@ class TaskVoter extends Voter
         $this->security = $security;
     }
     /**
-     * 
+     *
      *
      * @param  $attribute
      * @param  $subject
@@ -38,7 +36,7 @@ class TaskVoter extends Voter
             && $subject instanceof Task;
     }
     /**
-     * 
+     *
      *
      * @param  $attribute
      * @param  $task
@@ -53,18 +51,18 @@ class TaskVoter extends Voter
             return false;
         }
 
-        if ($this->security->isGranted('ROLE_ADMIN')) { return true;
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            return true;
         }
 
         switch ($attribute) {
             case self::DELETE:
             case self::EDIT:
-                if(!$task->getUser()){
+                if (!$task->getUser()) {
                     return false;
                 }
                 return $task->getUser()->getId() === $user->getId();
                 break;
-            
         }
 
         return false;

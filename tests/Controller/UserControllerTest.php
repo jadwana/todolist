@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-
 class UserControllerTest extends WebTestCase
 {
     use SetUpTrait;
@@ -15,13 +14,13 @@ class UserControllerTest extends WebTestCase
     {
         // Testing user access
         $this->client->loginUser($this->testUser);
-        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('user_list'));
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('user_list'));
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
         // Testing admin access
         $this->client->loginUser($this->testAdmin);
-        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('user_list'));
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('user_list'));
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertSelectorTextContains('h1','Liste des utilisateurs');
+        $this->assertSelectorTextContains('h1', 'Liste des utilisateurs');
     }
 
 
@@ -29,13 +28,13 @@ class UserControllerTest extends WebTestCase
     {
         // Testing user access
         $this->client->loginUser($this->testUser);
-        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('user_create'));
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('user_create'));
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
         // Testing admin access
         $this->client->loginUser($this->testAdmin);
-        $crawler = $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('user_create'));
+        $crawler = $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('user_create'));
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertSelectorTextContains('h1','Créer un utilisateur');
+        $this->assertSelectorTextContains('h1', 'Créer un utilisateur');
         // Testing adding new user
         $form = $crawler->selectButton('Ajouter')->form();
         $form['user[username]'] = 'autre';
@@ -45,14 +44,13 @@ class UserControllerTest extends WebTestCase
         $form['user[roles][1]']->tick();
         $this->client->submit($form);
 
-       
+
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
 
         $this->client->followRedirect();
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertSelectorTextContains('div.alert.alert-success','L\'utilisateur a bien été ajouté.');
-
+        $this->assertSelectorTextContains('div.alert.alert-success', 'L\'utilisateur a bien été ajouté.');
     }
 
     public function testEditUser()
@@ -60,11 +58,11 @@ class UserControllerTest extends WebTestCase
         // Testing user access
         $this->client->loginUser($this->testUser);
         $this->testUserId = $this->testUser->getId();
-        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('user_edit',['id' => $this->testUserId]));
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('user_edit', ['id' => $this->testUserId]));
         $this->assertResponseStatusCodeSame(Response::HTTP_FORBIDDEN);
         // Testing admin access
         $this->client->loginUser($this->testAdmin);
-        $this->client->request(Request::METHOD_GET,$this->urlGenerator->generate('user_edit',['id' => $this->testUserId] ));
+        $this->client->request(Request::METHOD_GET, $this->urlGenerator->generate('user_edit', ['id' => $this->testUserId]));
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         // Testing updating user
         $this->client->submitForm('Modifier', [
@@ -80,8 +78,6 @@ class UserControllerTest extends WebTestCase
         $this->client->followRedirect();
 
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
-        $this->assertSelectorTextContains('div.alert.alert-success','L\'utilisateur a bien été modifié');
+        $this->assertSelectorTextContains('div.alert.alert-success', 'L\'utilisateur a bien été modifié');
     }
-
-
 }
