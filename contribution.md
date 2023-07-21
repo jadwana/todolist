@@ -9,7 +9,8 @@ Before starting to work on a change, see if someone is already on it by checking
 ## Install project on your machine:
 
 Make a fork of the project Github directory
-Follow the [README](./README.md) after come back here
+
+Follow the [README](./README.md) and after come back here
 
 ## Path to follow :
 Before creating your issue there are a set of rules to respect: 
