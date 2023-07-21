@@ -64,4 +64,4 @@ If you want to use test please install a test base (refer to the contribution se
 
 ## Contribution
 
-[Read this before contributing](https://github.com/jadwana/todolist/contribution.md)
+[Read this before contributing](./contribution.md)
