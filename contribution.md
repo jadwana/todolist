@@ -13,18 +13,14 @@ Follow the [README](./README.md) after come back here
 
 ## Path to follow :
 Before creating your issue there are a set of rules to respect: 
-- use the issue title to clearly describe the problem 
-- use the bug or feature label for your issue 
-- give as many details as possible about your environment (OS, version of PHP, extensions ...) 
-- describe the steps to reproduce the bug or the details and usefulness of the new feature
-
-
+- Use the issue title to clearly describe the problem 
+- Use the bug or feature label for your issue 
+- Give as many details as possible about your environment (OS, version of PHP, extensions ...) 
+- Describe the steps to reproduce the bug or the details and usefulness of the new feature
 - Suggest your issue 
-
-
-- create a new branch, so you can work on it 
-- start implementing your code
-- commit it
+- Create a new branch, so you can work on it 
+- Start implementing your code
+- Commit it
 - Create a new pull-request and suggest it to us
 
 If the code is suitable and functional you will be able to merge your new functionality
