@@ -27,6 +27,7 @@ If you would like to install this project on your computer, you will first need 
 
 ### Database configuration and access
 1 Update DATABASE_URL .env file with your database configuration. 
+
 ex : DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name
 
 2 Create database :
