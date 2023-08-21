@@ -6,9 +6,8 @@
 
 {% block body %}
     <div class="row">
-        {% if app.user %}
+        {% if app.user and is_granted('ROLE_USER') %}
         {% include "_partials/_task-link.html.twig" %} 
-       
         {% endif %} 
     </div>
 {% endblock %}

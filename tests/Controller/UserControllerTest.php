@@ -44,7 +44,6 @@ class UserControllerTest extends WebTestCase
         $form['user[roles][1]']->tick();
         $this->client->submit($form);
 
-
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
 
         $this->client->followRedirect();
